@@ -2,7 +2,9 @@
 // Created by Matthew Wheeler on 15/10/2025.
 //
 
+#include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <vector>
 
 std::vector<int> get_next_row(const std::vector<int>& last_row) {
@@ -25,6 +27,16 @@ auto generate_triangle(const int rows) {
     return triangle;
 }
 
+template <typename T>
+std::ostream& operator<<(std::ostream& s, const std::vector<std::vector<T>>& triangle) {
+    for (const auto& row : triangle) {
+        std::ranges::copy(row, std::ostream_iterator<T>(s, " "));
+        s << '\n';
+    }
+    return s;
+}
+
 int main() {
-    generate_triangle(3);
+    const auto triangle = generate_triangle(16);
+    std::cout << triangle;
 }
