@@ -2,10 +2,11 @@
 // Created by Matthew Wheeler on 17/10/2025.
 //
 
+#include <functional>
 #include <iostream>
 #include <ostream>
 
-unsigned int some_const_number() {
+int some_const_number() {
     return 42;
 }
 
@@ -29,18 +30,25 @@ std::optional<int> read_number(std::istream& in) {
     return {};
 }
 
-void guess_number(unsigned number) {
-    std::cout << "Guess the number.\n";
+void guess_number(const int number,
+                  const std::function<std::string(int, int)>& message) {
+    std::cout << "Guess the number.\n>";
     std::optional<int> guess;
     while ((guess = read_number(std::cin))) {
         if (guess.value() == number) {
             std::cout << "Well done!\n";
             return;
         }
-        std::cout << guess.value() << " is wrong. Try again.\n";
+        std::cout << message(number, guess.value());
+        std::cout << '>';
     }
+    std::cout << std::format("The number was {}\n", number);
 }
 
 int main() {
-    guess_number(some_const_number());
+    auto make_message = [](int number, int guess) {
+        return std::format("Your guess was too {}\n",
+                           (guess < number ? "small" : "big"));
+    };
+    guess_number(some_const_number(), make_message);
 }
