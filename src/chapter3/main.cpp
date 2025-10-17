@@ -42,17 +42,45 @@ void guess_number(const int number,
     std::cout << std::format("The number was {}\n", number);
 }
 
-int get_random_number() {
+constexpr bool is_prime(const int n) {
+    if (n == 2 || n == 3) {
+        return true;
+    }
+
+    if (n <= 1 || n % 2 == 0 || n % 3 == 0) {
+        return false;
+    }
+
+    for (int i = 5; i * i < n; ++i) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int get_random_prime() {
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_int_distribution<int> dist(1, 100);
-    return dist(engine);
+    std::uniform_int_distribution<int> dist{1, 99999};
+
+    int n{};
+    while (!is_prime(n)) {
+        n = dist(engine);
+    }
+    return n;
+}
+
+void check_properties() {
+    static_assert(is_prime(2));
 }
 
 int main() {
+    check_properties();
     auto make_message = [](int number, int guess) {
         return std::format("Your guess was too {}\n",
                            (guess < number ? "small" : "big"));
     };
-    guess_number(get_random_number(), make_message);
+    guess_number(get_random_prime(), make_message);
 }
