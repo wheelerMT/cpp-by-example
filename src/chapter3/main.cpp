@@ -5,10 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <ostream>
-
-int some_const_number() {
-    return 42;
-}
+#include <random>
 
 unsigned int input() {
     unsigned int number;
@@ -45,10 +42,17 @@ void guess_number(const int number,
     std::cout << std::format("The number was {}\n", number);
 }
 
+int get_random_number() {
+    std::random_device rd;
+    std::mt19937 engine(rd());
+    std::uniform_int_distribution<int> dist(1, 100);
+    return dist(engine);
+}
+
 int main() {
     auto make_message = [](int number, int guess) {
         return std::format("Your guess was too {}\n",
                            (guess < number ? "small" : "big"));
     };
-    guess_number(some_const_number(), make_message);
+    guess_number(get_random_number(), make_message);
 }
