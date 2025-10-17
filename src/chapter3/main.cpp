@@ -2,6 +2,7 @@
 // Created by Matthew Wheeler on 17/10/2025.
 //
 
+#include <assert.h>
 #include <functional>
 #include <iostream>
 #include <ostream>
@@ -39,7 +40,7 @@ void guess_number(const int number,
         std::cout << message(number, guess.value());
         std::cout << '>';
     }
-    std::cout << std::format("The number was {}\n", number);
+    std::cout << std::format("The number was {:0>5}\n", number);
 }
 
 constexpr bool is_prime(const int n) {
@@ -71,16 +72,36 @@ int get_random_prime() {
     }
     return n;
 }
+std::string check_digits(int number, int guess) {
+    auto ns = std::format("{:0>5}", number);
+    const auto gs = std::format("{:0>5}", guess);
+    std::string matches(5, '.');
+    for (size_t i = 0, stop = gs.length(); i < stop; ++i) {
+        if (const char guess_char = gs[i]; i < ns.length() && guess_char == ns[i]) {
+            matches[i] = '*';
+            ns[i] = '*';
+        }
+    }
+    for (size_t i = 0, stop = gs.length(); i < stop; ++i) {
+        if (const char guess_char = gs[i]; i < ns.length() && matches[i] != '*') {
+            if (const size_t idx = ns.find(guess_char, 0); idx != std::string::npos) {
+                matches[i] = '^';
+                ns[idx] = '^';
+            }
+        }
+    }
 
+    return matches;
+}
 void check_properties() {
+    assert(check_digits(12347, 23471) == "^^^^^");
     static_assert(is_prime(2));
 }
 
 int main() {
     check_properties();
     auto make_message = [](int number, int guess) {
-        return std::format("Your guess was too {}\n",
-                           (guess < number ? "small" : "big"));
+        return std::format("{}\n", check_digits(number, guess));
     };
     guess_number(get_random_prime(), make_message);
 }
