@@ -28,19 +28,24 @@ std::optional<int> read_number(std::istream& in) {
     return {};
 }
 
-void guess_number(const int number,
-                  const std::function<std::string(int, int)>& message) {
+void guess_number(int number,
+                  const std::vector<std::function<std::string(int)>>& messages) {
     std::cout << "Guess the number.\n>";
     std::optional<int> guess;
     while ((guess = read_number(std::cin))) {
         if (guess.value() == number) {
-            std::cout << "Well done!\n";
+            std::cout << "Well done.";
             return;
         }
-        std::cout << message(number, guess.value());
-        std::cout << '>';
+        std::cout << std::format("{:0>5} is wrong. Try again\n", guess.value());
+        for (const auto& message : messages) {
+            if (auto clue = message(guess.value()); !clue.empty()) {
+                std::cout << clue;
+                break;
+            }
+        }
     }
-    std::cout << std::format("The number was {:0>5}\n", number);
+    std::cout << std::format("The number was {:0>5}\n", (number));
 }
 
 constexpr bool is_prime(const int n) {
@@ -72,7 +77,8 @@ int get_random_prime() {
     }
     return n;
 }
-std::string check_digits(int number, int guess) {
+
+std::string determine_correct_digits(int number, int guess) {
     auto ns = std::format("{:0>5}", number);
     const auto gs = std::format("{:0>5}", guess);
     std::string matches(5, '.');
@@ -94,14 +100,26 @@ std::string check_digits(int number, int guess) {
     return matches;
 }
 void check_properties() {
-    assert(check_digits(12347, 23471) == "^^^^^");
+    assert(determine_correct_digits(12347, 23471) == "^^^^^");
     static_assert(is_prime(2));
 }
 
 int main() {
     check_properties();
-    auto make_message = [](int number, int guess) {
-        return std::format("{}\n", check_digits(number, guess));
+    auto check_prime = [](int guess) {
+        return std::string((is_prime(guess)) ? "" : "Not prime\n");
     };
-    guess_number(get_random_prime(), make_message);
+
+    auto check_length = [](int guess) {
+        return std::string((guess < 10000) ? "" : "Too long\n");
+    };
+
+    const int number = get_random_prime();
+    auto check_digits = [number](int guess) {
+        return std::format("{}\n", determine_correct_digits(number, guess));
+    };
+
+    std::vector<std::function<std::string(int)>> messages{check_length, check_prime,
+                                                          check_digits};
+    guess_number(get_random_prime(), messages);
 }
