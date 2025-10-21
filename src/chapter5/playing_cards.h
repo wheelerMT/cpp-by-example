@@ -25,9 +25,22 @@ private:
     int m_value;
 };
 
-struct Card {
-    FaceValue value;
-    Suit suit;
+class Card {
+public:
+    Card() = default;
+    Card(const FaceValue value, const Suit suit)
+        : m_value{value}
+        , m_suit{suit} {}
+    [[nodiscard]] FaceValue value() const {
+        return m_value;
+    }
+    [[nodiscard]] Suit suit() const {
+        return m_suit;
+    }
+
+private:
+    FaceValue m_value{1};
+    Suit m_suit{};
 };
 
 } // namespace cards
