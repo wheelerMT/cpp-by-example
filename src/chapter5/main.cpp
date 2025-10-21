@@ -2,5 +2,5 @@
 using namespace cards;
 
 int main() {
-    Card card{2, Suit::Clubs};
+    Card card{FaceValue(2), Suit::Clubs};
 }
