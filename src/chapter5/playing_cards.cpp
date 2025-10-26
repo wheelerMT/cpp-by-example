@@ -4,6 +4,8 @@
 
 #include "playing_cards.h"
 
+#include <algorithm>
+
 namespace cards {
 std::string to_string(const Suit& suit) {
     using namespace std::literals;
@@ -36,16 +38,27 @@ std::string to_string(const FaceValue& value) {
         return std::to_string(value.value());
     }
 }
+Suit& operator++(Suit& suit) {
+    using IntType = std::underlying_type_t<Suit>;
+    if (suit == Suit::Spades)
+        suit = Suit::Hearts;
+    else
+        suit = static_cast<Suit>(static_cast<IntType>(suit) + 1);
+    return suit;
+}
 
 std::array<Card, 52> create_deck() {
     std::array<Card, 52> deck;
-    auto card = deck.begin();
-    for (const auto suit : {Suit::Clubs, Suit::Hearts, Suit::Spades, Suit::Diamonds}) {
-        for (int i = 1; i < 13; ++i) {
-            *card = Card{FaceValue(i), suit};
-            ++card;
+    int value = 1;
+    auto suit = Suit::Hearts;
+
+    std::ranges::generate(deck, [&value, &suit]() {
+        if (value > 13) {
+            value = 1;
+            ++suit;
         }
-    }
+        return Card{FaceValue(value++), suit};
+    });
     return deck;
 }
 
