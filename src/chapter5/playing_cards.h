@@ -4,7 +4,9 @@
 
 #ifndef CHAPTER5_PLAYING_CARDS_H
 #define CHAPTER5_PLAYING_CARDS_H
+#include <iostream>
 #include <stdexcept>
+
 namespace cards {
 enum class Suit { Hearts, Diamonds, Clubs, Spades };
 
@@ -42,6 +44,8 @@ private:
     FaceValue m_value{1};
     Suit m_suit{};
 };
+
+std::ostream& operator<<(std::ostream& os, const Card& card);
 
 } // namespace cards
 #endif // CHAPTER5_PLAYING_CARDS_H
