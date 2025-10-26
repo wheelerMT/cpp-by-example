@@ -18,10 +18,10 @@ public:
             throw std::invalid_argument("Face value invalid, must be between 1 and 13");
         }
     }
-
     [[nodiscard]] int value() const {
         return m_value;
     }
+    auto operator<=>(const FaceValue&) const = default;
 
 private:
     int m_value;
@@ -39,6 +39,7 @@ public:
     [[nodiscard]] Suit suit() const {
         return m_suit;
     }
+    auto operator<=>(const Card&) const = default;
 
 private:
     FaceValue m_value{1};
