@@ -37,6 +37,18 @@ std::string to_string(const FaceValue& value) {
     }
 }
 
+std::array<Card, 52> create_deck() {
+    std::array<Card, 52> deck;
+    auto card = deck.begin();
+    for (const auto suit : {Suit::Clubs, Suit::Hearts, Suit::Spades, Suit::Diamonds}) {
+        for (int i = 1; i < 13; ++i) {
+            *card = Card{FaceValue(i), suit};
+            ++card;
+        }
+    }
+    return deck;
+}
+
 std::ostream& operator<<(std::ostream& os, const Card& card) {
     os << to_string(card.value()) << " of " << to_string(card.suit());
     return os;
