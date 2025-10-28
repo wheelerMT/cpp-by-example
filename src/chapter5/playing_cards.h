@@ -46,7 +46,8 @@ private:
     Suit m_suit{};
 };
 
-std::array<Card, 52> create_deck();
+using Deck = std::array<Card, 52>;
+Deck create_deck();
 
 std::ostream& operator<<(std::ostream& os, const Card& card);
 std::string to_string(const Suit& suit);

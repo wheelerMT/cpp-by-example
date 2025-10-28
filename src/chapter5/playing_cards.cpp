@@ -47,8 +47,8 @@ Suit& operator++(Suit& suit) {
     return suit;
 }
 
-std::array<Card, 52> create_deck() {
-    std::array<Card, 52> deck;
+Deck create_deck() {
+    Deck deck;
     int value = 1;
     auto suit = Suit::Hearts;
 
