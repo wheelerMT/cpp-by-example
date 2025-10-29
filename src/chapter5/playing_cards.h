@@ -6,6 +6,7 @@
 #define CHAPTER5_PLAYING_CARDS_H
 #include <iostream>
 #include <stdexcept>
+#include <variant>
 
 namespace cards {
 enum class Suit { Hearts, Diamonds, Clubs, Spades };
@@ -46,10 +47,19 @@ private:
     Suit m_suit{};
 };
 
+struct Joker {};
+
 using Deck = std::array<Card, 52>;
 Deck create_deck();
 
+using ExtendedDeck = std::array<std::variant<Card, Joker>, 52>;
+ExtendedDeck create_extended_deck();
+
+void shuffle_deck(Deck& deck);
+void shuffle_deck(ExtendedDeck& deck);
+
 std::ostream& operator<<(std::ostream& os, const Card& card);
+std::ostream& operator<<(std::ostream& os, const std::variant<Card, Joker>& card);
 std::string to_string(const Suit& suit);
 std::string to_string(const FaceValue& value);
 Suit& operator++(Suit& suit);

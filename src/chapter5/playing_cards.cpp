@@ -5,6 +5,7 @@
 #include "playing_cards.h"
 
 #include <algorithm>
+#include <random>
 
 namespace cards {
 std::string to_string(const Suit& suit) {
@@ -62,8 +63,36 @@ Deck create_deck() {
     return deck;
 }
 
+ExtendedDeck create_extended_deck() {
+    ExtendedDeck deck{Joker{}, Joker{}};
+    Deck cards = create_deck();
+    std::ranges::copy(cards, deck.begin() + 2);
+    return deck;
+}
+
+void shuffle_deck(Deck& deck) {
+    std::random_device rd;
+    std::mt19937 gen{rd()};
+    std::ranges::shuffle(deck, gen);
+}
+
+void shuffle_deck(ExtendedDeck& deck) {
+    std::random_device rd;
+    std::mt19937 gen{rd()};
+    std::ranges::shuffle(deck, gen);
+}
+
 std::ostream& operator<<(std::ostream& os, const Card& card) {
     os << to_string(card.value()) << " of " << to_string(card.suit());
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const std::variant<Card, Joker>& card) {
+    if (std::holds_alternative<Joker>(card))
+        os << "JOKER";
+    else
+        os << std::get<Card>(card);
+
     return os;
 }
 
