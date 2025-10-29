@@ -10,6 +10,10 @@ void shuffle_deck(Deck& deck) {
     std::ranges::shuffle(deck, gen);
 }
 
+bool is_guess_correct(const char guess, const Card& current, const Card& next) {
+    return (guess == 'h' && next > current) | (guess == 'l' && next < current);
+}
+
 int main() {
     auto deck = create_deck();
     shuffle_deck(deck);
