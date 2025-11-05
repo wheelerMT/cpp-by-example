@@ -1,4 +1,13 @@
-#include <print>
+#include "race.h"
+
+#include <cassert>
+
+void check_properties() {
+    Race::StepperBlob blob;
+    blob.step();
+    assert(blob.total_steps() == 2);
+}
+
 int main() {
-    std::println("Hello, world!");
+    check_properties();
 }

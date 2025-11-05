@@ -3,4 +3,6 @@ project(chapter6)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(chapter6 main.cpp)
+add_executable(chapter6 main.cpp
+        race.cpp
+        race.h)
