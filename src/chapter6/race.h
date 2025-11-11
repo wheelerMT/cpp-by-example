@@ -4,6 +4,7 @@
 
 #ifndef CHAPTER6_RACE_H
 #define CHAPTER6_RACE_H
+#include <vector>
 namespace Race {
 class Blob {
 public:
@@ -28,5 +29,8 @@ public:
 private:
     int y = 0;
 };
+
+void draw_blobs(const std::vector<StepperBlob>& blobs);
+
 } // namespace Race
 #endif // CHAPTER6_RACE_H
