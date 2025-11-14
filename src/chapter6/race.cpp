@@ -26,4 +26,9 @@ void draw_blobs(const std::vector<StepperBlob>& blobs) {
     constexpr int edges = 3;
     std::cout << std::string(blobs.size() * 2 + edges, '-') << '\n';
 }
+void move_blobs(std::vector<StepperBlob>& blobs) {
+    for (auto& blob : blobs) {
+        blob.step();
+    }
+}
 } // namespace Race
