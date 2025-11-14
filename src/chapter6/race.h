@@ -32,5 +32,7 @@ private:
 
 void draw_blobs(const std::vector<StepperBlob>& blobs);
 void move_blobs(std::vector<StepperBlob>& blobs);
+void race(std::vector<StepperBlob>& blobs);
+
 } // namespace Race
 #endif // CHAPTER6_RACE_H

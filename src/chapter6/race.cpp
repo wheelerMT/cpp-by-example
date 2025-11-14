@@ -4,6 +4,7 @@
 
 #include "race.h"
 
+#include <__thread/this_thread.h>
 #include <iostream>
 
 namespace Race {
@@ -30,5 +31,17 @@ void move_blobs(std::vector<StepperBlob>& blobs) {
     for (auto& blob : blobs) {
         blob.step();
     }
+}
+void race(std::vector<StepperBlob>& blobs) {
+    using namespace std::chrono_literals;
+    constexpr int max = 3;
+    std::cout << "\x1B[2J\x1B[H";
+    for (int i = 0; i < max; ++i) {
+        draw_blobs(blobs);
+        move_blobs(blobs);
+        std::this_thread::sleep_for(1000ms);
+        std::cout << "\x1B[2J\x1B[H";
+    }
+    draw_blobs(blobs);
 }
 } // namespace Race

@@ -10,4 +10,6 @@ void check_properties() {
 
 int main() {
     check_properties();
+    std::vector<Race::StepperBlob> blobs(4);
+    Race::race(blobs);
 }
