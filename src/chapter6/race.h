@@ -30,6 +30,27 @@ private:
     int y = 0;
 };
 
+template <std::invocable<> T, typename U>
+class RandomBlob final : public Blob {
+public:
+    RandomBlob(T gen, U dis)
+        : generator{gen}
+        , distribution{dis} {}
+
+    void step() override {
+        y += static_cast<int>(distribution(generator));
+    };
+
+    [[nodiscard]] int total_steps() const override {
+        return y;
+    }
+
+private:
+    int y = 0;
+    T generator;
+    U distribution;
+};
+
 void draw_blobs(const std::vector<StepperBlob>& blobs);
 void move_blobs(std::vector<StepperBlob>& blobs);
 void race(std::vector<StepperBlob>& blobs);
