@@ -9,13 +9,13 @@
 
 namespace Race {
 
-void draw_blobs(const std::vector<StepperBlob>& blobs) {
+void draw_blobs(const std::vector<std::unique_ptr<Blob>>& blobs) {
     constexpr int race_height = 8;
     for (int y = race_height; y >= 0; --y) {
         constexpr int bag_height = 3;
         std::string output = y >= bag_height ? "  " : "| ";
         for (const auto& blob : blobs) {
-            if (blob.total_steps() >= y) {
+            if (blob->total_steps() >= y) {
                 output += "* ";
             } else {
                 output += "  ";
@@ -27,12 +27,14 @@ void draw_blobs(const std::vector<StepperBlob>& blobs) {
     constexpr int edges = 3;
     std::cout << std::string(blobs.size() * 2 + edges, '-') << '\n';
 }
-void move_blobs(std::vector<StepperBlob>& blobs) {
-    for (auto& blob : blobs) {
-        blob.step();
+
+void move_blobs(const std::vector<std::unique_ptr<Blob>>& blobs) {
+    for (const auto& blob : blobs) {
+        blob->step();
     }
 }
-void race(std::vector<StepperBlob>& blobs) {
+
+void race(const std::vector<std::unique_ptr<Blob>>& blobs) {
     using namespace std::chrono_literals;
     constexpr int max = 3;
     std::cout << "\x1B[2J\x1B[H";

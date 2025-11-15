@@ -4,6 +4,7 @@
 
 #ifndef CHAPTER6_RACE_H
 #define CHAPTER6_RACE_H
+#include <memory>
 #include <vector>
 namespace Race {
 class Blob {
@@ -51,9 +52,9 @@ private:
     U distribution;
 };
 
-void draw_blobs(const std::vector<StepperBlob>& blobs);
-void move_blobs(std::vector<StepperBlob>& blobs);
-void race(std::vector<StepperBlob>& blobs);
+void draw_blobs(const std::vector<std::unique_ptr<Blob>>& blobs);
+void move_blobs(const std::vector<std::unique_ptr<Blob>>& blobs);
+void race(const std::vector<std::unique_ptr<Blob>>& blobs);
 
 } // namespace Race
 #endif // CHAPTER6_RACE_H
