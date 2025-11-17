@@ -3,4 +3,6 @@ project(chapter7)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(chapter7 main.cpp)
+add_executable(chapter7 main.cpp
+        smash.cpp
+        smash.h)
