@@ -12,4 +12,6 @@ using Dictionary = std::map<std::string, std::string>;
 std::pair<std::string, int> find_overlapping_word(const std::string& word,
                                                   const Dictionary& dictionary);
 
+void simple_answer_smash(const Dictionary& keywords, const Dictionary& dictionary);
+
 #endif // CHAPTER7_SMASH_H
