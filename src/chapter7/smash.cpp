@@ -5,7 +5,6 @@
 #include "smash.h"
 
 #include <iostream>
-#include <ranges>
 
 std::pair<std::string, int> find_overlapping_word(const std::string& word,
                                                   const Dictionary& dictionary) {
