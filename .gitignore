@@ -987,3 +987,6 @@ dkms.conf
 
 # Jetbrains
 .idea/
+
+# VSCode
+.vscode
