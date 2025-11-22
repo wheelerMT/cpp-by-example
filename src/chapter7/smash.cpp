@@ -11,9 +11,9 @@ std::pair<std::string, int> find_overlapping_word(const std::string& word,
     size_t offset{1};
     while (offset < word.size()) {
         auto stem = word.substr(offset);
-        if (auto [lb, up] = dictionary.equal_range(stem);
-            lb != dictionary.end() && stem == lb->first.substr(0, stem.size())) {
-            return {lb->first, offset};
+        if (auto [lower, upper] = dictionary.equal_range(stem);
+            lower != dictionary.end() && lower->first.starts_with(stem)) {
+            return {lower->first, offset};
         }
         ++offset;
     }
