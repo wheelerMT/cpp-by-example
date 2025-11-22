@@ -7,6 +7,7 @@
 #include <map>
 #include <string>
 #include <utility>
+
 using Dictionary = std::map<std::string, std::string>;
 
 std::pair<std::string, int> find_overlapping_word(const std::string& word,

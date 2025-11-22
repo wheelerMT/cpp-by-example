@@ -4,9 +4,6 @@
 
 #include "smash.h"
 
-#include <map>
-#include <string>
-
 int main() {
     const Dictionary keywords{
         {"char", "type for character representation which can be most efficiently "
